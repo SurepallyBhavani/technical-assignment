@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+from tabulate import tabulate
 
 
 BASE_URL = "https://mdcomputers.in/"
@@ -54,17 +55,34 @@ def fetch_products(search_term):
             class_="ins"
         )
 
+        original_price_element = product.find(
+            "span",
+            class_="del"
+        )
+
+        discount_element = product.find(
+            "span",
+            class_="onsale"
+        )
+
         if name_element and price_element:
-            name = name_element.get_text(strip=True)
-            price = price_element.get_text(strip=True)
 
             item = {
-                "product_name": name,
-                "price": price
+                "product_name": name_element.get_text(strip=True),
+                "price": price_element.get_text(strip=True),
+                "original_price": (
+                    original_price_element.get_text(strip=True)
+                    if original_price_element
+                    else "N/A"
+                ),
+                "discount": (
+                    discount_element.get_text(strip=True)
+                    if discount_element
+                    else "N/A"
+                )
             }
 
             product_list.append(item)
-    print(product_elements[0].prettify())
 
     return product_list
 
@@ -75,16 +93,31 @@ def display_products(products):
         print("No products found.")
         return
 
-    print()
-    print(f"{'Product Name':<50} {'Selling Price':>15}")
-    print("-" * 67)
+    table = [
+        [
+            product["product_name"],
+            product["price"],
+            product["original_price"],
+            product["discount"]
+        ]
+        for product in products
+    ]
 
-    for product in products:
-        print(
-            f"{product['product_name']:<50} "
-            f"{product['price']:>15}"
+    print("\nProducts found:\n")
+
+    print(
+        tabulate(
+            table,
+            headers=[
+                "Product Name",
+                "Selling Price",
+                "Original Price",
+                "Discount"
+            ],
+            tablefmt="grid"
         )
-        print("-"*67)
+    )
+
 
 def main():
 
@@ -97,6 +130,7 @@ def main():
     products = fetch_products(search_term)
 
     display_products(products)
+
 
 if __name__ == "__main__":
     main()
