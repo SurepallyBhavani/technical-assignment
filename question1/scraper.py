@@ -21,6 +21,7 @@ def fetch_products(search_term):
     }
 
     try:
+        #sending the search request and raise an error for unsuccessful responses
         response = requests.get(
             BASE_URL,
             params=params,
@@ -33,7 +34,7 @@ def fetch_products(search_term):
     except requests.RequestException as e:
         print("Request failed:", e)
         return []
-
+    #html response parsing
     soup = BeautifulSoup(response.text, "html.parser")
 
     product_elements = soup.find_all(
@@ -43,6 +44,7 @@ def fetch_products(search_term):
 
     product_list = []
 
+    # extract the required details from each product
     for product in product_elements:
 
         name_element = product.find(
