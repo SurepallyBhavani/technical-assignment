@@ -8,7 +8,7 @@ if [ -z "$URL" ]; then
     exit 1
 fi
 
-# Download the CSV dataset
+# Download the CSV dataset and raise error if the data doesnot exist
 if ! curl -sSf "$URL" -o companies.csv; then
     echo "Error: Failed to retrieve the dataset."
     exit 1
