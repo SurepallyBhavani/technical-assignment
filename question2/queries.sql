@@ -2,9 +2,11 @@
 --Write an SQL query to determine how many types of Acacia plants are present in the taxonomy table.
 --Return the result as a clearly named column.
 
-SELECT COUNT(DISTINCT species) as Types_of_Acacia_Plants
+SELECT COUNT(DISTINCT species) AS acacia_type_count
 FROM taxonomy
 WHERE species LIKE 'Acacia%';
+
+
 
 --Query 2B
 --Write an SQL query to determine which type of wheat has the longest DNA sequence.
@@ -12,14 +14,16 @@ WHERE species LIKE 'Acacia%';
 --Return the relevant wheat type and its DNA sequence length.
 
 SELECT
-    t.species as Wheat_Type,
-    r.length as DNA_Sequence_Length
+    t.species as wheat_type,
+    r.length as dna_sequence_length
 FROM taxonomy AS t
 JOIN rfamseq AS r
     ON t.ncbi_id = r.ncbi_id
 WHERE t.species LIKE '%wheat%'
 ORDER BY r.length DESC
 LIMIT 1;
+
+
 
 -- Query 2C: 
 --Family name, accession and maximum DNA sequence length
