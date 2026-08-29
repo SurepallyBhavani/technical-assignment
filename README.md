@@ -144,18 +144,6 @@ Connect to the Rfam database using the MySQL client and execute the queries in:
 question2/queries.sql
 ```
 
-For example:
-
-```bash
-mysql --user rfamro \
-      --host mysql-rfam-public.ebi.ac.uk \
-      --port 4497 \
-      --database Rfam < question2/queries.sql
-```
-
-The public database is read-only, so the queries do not modify the database.
-
-
 ## Question 3 - Unix Shell Scripting
 
 ### Description
@@ -187,8 +175,6 @@ Run it by supplying the dataset URL:
 ```bash
 ./question3/companies.sh "https://raw.githubusercontent.com/datasets/s-and-p-500-companies/refs/heads/main/data/constituents.csv"
 ```
-
-The URL is supplied as a command-line argument and is not hard-coded in the script.
 
 ### Error Handling
 
